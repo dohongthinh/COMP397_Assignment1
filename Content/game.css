@@ -1,4 +1,5 @@
 #canvas
 {
     border: solid, black, 5px;
+    background-image: url(../Assets/Images/slot_machine_background.png);
 }

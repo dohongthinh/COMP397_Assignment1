@@ -28,7 +28,6 @@ var objects;
             _this._height = 0;
             _this._halfWidth = 0;
             _this._halfHeight = 0;
-            //this._position = new Vector2(0, 0, this);
             _this._isColliding = false;
             _this._isCentered = false;
             _this.image.addEventListener("load", function () {
@@ -37,7 +36,6 @@ var objects;
                 _this.isCentered = centered;
             });
             return _this;
-            // this.position = new Vector2(x, y, this);
         }
         Object.defineProperty(GameObject.prototype, "width", {
             // PUBLIC PROPERTIES
@@ -77,19 +75,6 @@ var objects;
             configurable: true
         });
         Object.defineProperty(GameObject.prototype, "isColliding", {
-            /*
-            get position():Vector2
-            {
-                return this._position;
-            }
-    
-            set position(newPosition:Vector2)
-            {
-                this._position = newPosition;
-                this.x = newPosition.x;
-                this.y = newPosition.y;
-            }
-            */
             get: function () {
                 return this._isColliding;
             },

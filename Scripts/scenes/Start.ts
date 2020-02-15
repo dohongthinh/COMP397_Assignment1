@@ -4,7 +4,7 @@ module scenes
     {
         // PRIVATE INSTANCE MEMBERS
         _scene: any;
-        _queue: any;
+        _queue: any = new createjs.LoadQueue();
         _play: any;
         _result: any;
         // initial value
@@ -30,12 +30,7 @@ module scenes
             ['slark','ww','pugna','cm','sb','np']
         ];
 
-        _reel_images = [];      
-        //buttons  
-        spinButton: objects.Button;
-        bet100Button: objects.Button;
-        bet50Button: objects.Button;
-        bet10Button: objects.Button;
+        _reel_images:any = [];      
 
         //labels
         moneyLabel: objects.Label;
@@ -45,6 +40,13 @@ module scenes
         turnLabel: objects.Label;
         ratioLabel: objects.Label;
 
+
+        //buttons  
+        
+        spinButton: objects.Button;
+        bet100Button: objects.Button;
+        bet50Button: objects.Button;
+        bet10Button: objects.Button;
 
         _y_offset = 110;  
         _reel_start_y = 100;
@@ -57,8 +59,7 @@ module scenes
         constructor()
         {
             super();
-
-            // initialization
+            // initialization                      
             this.spinButton = new objects.Button();
             this.bet100Button=new objects.Button();
             this.bet50Button=new objects.Button();
@@ -86,17 +87,18 @@ module scenes
             this.removeChild(this.turnLabel);
             this.removeChild(this.ratioLabel);
     
-            this.moneyLabel = new objects.Label("Money" + this.player_money, "80px", "Consolas", "#000000", 30, 30, true);
-            this.betLabel = new objects.Label("Bet" + this.bet, "80px", "Consolas", "#000000", 255, 30, true);
-            this.winNumberLabel = new objects.Label("Win Number" + this.wins, "80px", "Consolas", "#000000", 445, 30, true);
-            this.lossNumberLabel = new objects.Label("Loss Number" + this.losses, "80px", "Consolas", "#000000", 620, 30, true);
-    
-            this.addChild(this.moneyLabel);
-            this.addChild(this.winNumberLabel);
-            this.addChild(this.lossNumberLabel);
-            this.addChild(this.betLabel);
-            this.addChild(this.turnLabel);
-            this.addChild(this.ratioLabel);
+            this.moneyLabel = new objects.Label("Money: " + this.player_money, "20px", "Consolas", "#000000", 100, 450, true);
+            this.betLabel = new objects.Label("Bet: " + this.bet, "20px", "Consolas", "#000000", 250, 450, true);
+            this.winNumberLabel = new objects.Label("Win Number: " + this.wins, "20px", "Consolas", "#000000", 100, 480, true);
+            this.lossNumberLabel = new objects.Label("Loss Number: " + this.losses, "20px", "Consolas", "#000000", 300, 480, true);
+            this.turnLabel = new objects.Label("Turn: " + this.turn, "20px", "Consolas", "#000000", 100, 510, true);
+            this.ratioLabel = new objects.Label("Ratio: " + this.ratio, "20px", "Consolas", "#000000", 250, 515, true);
+            /*
+            this.spinButton = new objects.Button('./Assets/images/spinbutton.png', 320, 430, true);   
+            this.bet10Button = new objects.Button('./Assets/images/bet10.png', 320, 430, true);   
+            this.bet50Button = new objects.Button('./Assets/images/bet50.png', 320, 430, true);   
+            this.bet100Button = new objects.Button('./Assets/images/bet100.png', 320, 430, true);  */
+            
         }
 
         public resetReels():void
@@ -243,32 +245,25 @@ module scenes
         {
             let index = 0;
             for(let i = 0; i < this.reels.length; i++) 
-            {                
-            for(let x = spins[i]-1, count = 0; count < 3; x++, count++)
-            {            
-                if(x < 0)
-                    x = this.reels[i].length-1;
-                else if(x > this.reels[i].length-1)
-                    x = 0;
-            
-            
-                    this._reel_images[index] = new createjs.Bitmap(this.getResult(reels[i][x]));
-                    reel_images[index].regX = reel_images[index].image.width / 2;
-                    reel_images[index].regY = reel_images[index].image.height / 2;
-                    reel_images[index].x = reel_start_x + (i * x_offset);
-                    reel_images[index].y = reel_start_y + (count * y_offset);                
-                    this.addChild(reel_images[index]);                          
-                    index++;
-        }
-    }   
-        }
+            {                          
+                this._reel_images[index] = new createjs.Bitmap(this._queue.getResult(this.reels[i]));
+                this._reel_images[index].regX = this._reel_images[index].image.width / 2;
+                this._reel_images[index].regY = this._reel_images[index].image.height / 2;
+                this._reel_images[index].x = this._reel_start_x + (i * this._x_offset);
+                this._reel_images[index].y = this._reel_start_y + (this._y_offset);                
+                this.addChild(this._reel_images[index]);                          
+                index++;
+            }
+        }   
+        
 
         public Start(): void 
         {
              //instantiate a new Text object
             //this.welcomeLabel = new objects.Label("The Game", "80px", "Consolas", "#000000", 320, 180, true);
             // buttons
-            //this.spinButton = new objects.Button('./Assets/images/spinbutton.png', 320, 430, true);
+                     
+            this.DisplayStats();
             this.Main();
         }        
         
@@ -278,8 +273,18 @@ module scenes
         }
         
         public Main(): void 
-        {       
+        {                   
+            this.addChild(this.moneyLabel);
+            this.addChild(this.winNumberLabel);
+            this.addChild(this.lossNumberLabel);
+            this.addChild(this.betLabel);
+            this.addChild(this.turnLabel);
+            this.addChild(this.ratioLabel);
+            /*
             this.addChild(this.spinButton);
+            this.addChild(this.bet10Button);
+            this.addChild(this.bet50Button);
+            this.addChild(this.bet100Button);*/
         }
 
         
