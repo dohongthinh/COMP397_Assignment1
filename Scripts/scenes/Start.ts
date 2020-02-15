@@ -93,11 +93,7 @@ module scenes
             this.lossNumberLabel = new objects.Label("Loss Number: " + this.losses, "20px", "Consolas", "#000000", 300, 480, true);
             this.turnLabel = new objects.Label("Turn: " + this.turn, "20px", "Consolas", "#000000", 100, 510, true);
             this.ratioLabel = new objects.Label("Ratio: " + this.ratio, "20px", "Consolas", "#000000", 250, 515, true);
-            /*
-            this.spinButton = new objects.Button('./Assets/images/spinbutton.png', 320, 430, true);   
-            this.bet10Button = new objects.Button('./Assets/images/bet10.png', 320, 430, true);   
-            this.bet50Button = new objects.Button('./Assets/images/bet50.png', 320, 430, true);   
-            this.bet100Button = new objects.Button('./Assets/images/bet100.png', 320, 430, true);  */
+            
             
         }
 
@@ -264,6 +260,11 @@ module scenes
             // buttons
                      
             this.DisplayStats();
+            
+            this.spinButton = new objects.Button('./Assets/images/spinbutton.png', 100, 300, true);   
+            this.bet10Button = new objects.Button('./Assets/images/bet10.png', 100, 350, true);   
+            this.bet50Button = new objects.Button('./Assets/images/bet50.png', 200, 350, true);   
+            this.bet100Button = new objects.Button('./Assets/images/bet100.png', 300, 350, true);  
             this.Main();
         }        
         
@@ -280,11 +281,11 @@ module scenes
             this.addChild(this.betLabel);
             this.addChild(this.turnLabel);
             this.addChild(this.ratioLabel);
-            /*
+            
             this.addChild(this.spinButton);
             this.addChild(this.bet10Button);
             this.addChild(this.bet50Button);
-            this.addChild(this.bet100Button);*/
+            this.addChild(this.bet100Button);
         }
 
         
