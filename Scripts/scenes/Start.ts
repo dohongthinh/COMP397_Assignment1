@@ -3,10 +3,8 @@ module scenes
     export class Start extends objects.Scene
     {
         // PRIVATE INSTANCE MEMBERS
-        _scene: any;
-        _queue: any = new createjs.LoadQueue();
-        _play: any;
-        _result: any;
+        _queue: any = new createjs.LoadQueue(true);
+        
         // initial value
         jackpot:number = 5000;
         player_money:number = 1000;
@@ -23,11 +21,12 @@ module scenes
         sb:number = 0;
         slark:number = 0;
         ww:number = 0;
-
+        sk:number =0;
+        invoker:number =0;
         reels = [
-            ['cm','pugna','np','sb','slark','ww'],
-            ['pugna','sb','cm','ww','np','slark'],
-            ['slark','ww','pugna','cm','sb','np']
+            ['cm','pugna','np','sb','slark','ww','sk','invoker'],
+            ['pugna','sb','sk','cm','ww','np','invoker','slark'],
+            ['invoker','slark','sk','ww','pugna','cm','sb','np']
         ];
 
         _reel_images:any = [];      
@@ -86,15 +85,21 @@ module scenes
             this.removeChild(this.betLabel);
             this.removeChild(this.turnLabel);
             this.removeChild(this.ratioLabel);
-    
+            
             this.moneyLabel = new objects.Label("Money: " + this.player_money, "20px", "Consolas", "#000000", 100, 450, true);
             this.betLabel = new objects.Label("Bet: " + this.bet, "20px", "Consolas", "#000000", 250, 450, true);
             this.winNumberLabel = new objects.Label("Win Number: " + this.wins, "20px", "Consolas", "#000000", 100, 480, true);
             this.lossNumberLabel = new objects.Label("Loss Number: " + this.losses, "20px", "Consolas", "#000000", 300, 480, true);
             this.turnLabel = new objects.Label("Turn: " + this.turn, "20px", "Consolas", "#000000", 100, 510, true);
-            this.ratioLabel = new objects.Label("Ratio: " + this.ratio, "20px", "Consolas", "#000000", 250, 515, true);
+            this.ratioLabel = new objects.Label("Ratio: " + Math.round(this.ratio)+"%", "20px", "Consolas", "#000000", 250, 515, true);
             
-            
+            this.addChild(this.moneyLabel);
+            this.addChild(this.winNumberLabel);
+            this.addChild(this.lossNumberLabel);
+            this.addChild(this.betLabel);
+            this.addChild(this.turnLabel);
+            this.addChild(this.ratioLabel);
+                       
         }
 
         public resetReels():void
@@ -105,6 +110,8 @@ module scenes
             this.sb= 0;
             this.slark = 0;
             this.ww = 0;
+            this.sk = 0;
+            this.invoker = 0;
         }
 
         public resetAll():void
@@ -124,6 +131,7 @@ module scenes
             this.removeChild(this._reel_images[i]);
         }
 
+
         public spin():void
         {
             if(this.bet > this.player_money)        
@@ -133,14 +141,11 @@ module scenes
             else
             {
                 this.clearReelsPicture();
-                this.resetAll();
-                this.resetReels();  
-                this.wins = 0;               
-                this.losses = 0;
-                this.ratio = 0;
+                //this.resetAll();
+                this.resetReels(); 
                 this.player_money -= this.bet;
                 this.turn++;
-
+                this.ratio=this.wins/this.turn * 100;
                 var spins = [];
                 var result = [];
 
@@ -155,29 +160,45 @@ module scenes
                     {
                         this.cm++;
                     }
-                    else if(result [i] === "pugna")
+                    else if(result [i] == "pugna")
                     {
                         this.pugna++;
                     }
-                    else if(result [i] === "np")
+                    else if(result [i] == "np")
                     {
                         this.np++;
                     }
-                    else if(result [i] === "sb")
+                    else if(result [i] == "sb")
                     {
                         this.sb++;
                     }
-                    else if(result[i] === "slark")
+                    else if(result[i] == "slark")
                     {
                         this.slark++; 
+                    }
+                    else if(result[i] == "sk")
+                    {
+                        this.sk++; 
+                    }
+                    else if(result[i] == "invoker")
+                    {
+                        this.invoker++; 
                     }
                     else
                     {
                         this.ww++;
                 }
             }
+            console.log("cm"+this.cm);
+            console.log("pugna"+this.pugna);
+            console.log("np"+this.np);
+            console.log("sb"+this.sb);
+            console.log("slark"+this.slark);            
+            console.log("ww"+this.ww);         
+            console.log("sk"+this.sk);
+            console.log("invoker"+this.invoker);
             this.determineWinning();        
-            this.displayResult(spins);
+            //this.displayResult(spins);
             this.DisplayStats();
             }
         }
@@ -196,7 +217,7 @@ module scenes
         
         public determineWinning():void
         {
-            if(this.sb == 0)
+            if(this.sb == 0 && this.sk == 0 && this.invoker==0)
             {       
                 this.wins++;
                 this.winnings += this.bet;
@@ -205,7 +226,7 @@ module scenes
             //the player's winnings are increased
             if(this.slark == 2)
                 this.winnings += this.bet * 10;
-            else if(this.slark == 4)
+            else if(this.slark == 3)
                 this.winnings += this.bet * 15;
             else if(this.pugna == 2 || this.ww == 2)
                 this.winnings += this.bet * 20;
@@ -221,7 +242,11 @@ module scenes
                 this.winnings += this.bet * 100;
 
                 this.player_money += this.winnings;
-            this.checkJackpot();
+                this.checkJackpot();
+            }
+            else
+            {
+                this.losses++;
             }
         }
 
@@ -259,12 +284,11 @@ module scenes
             //this.welcomeLabel = new objects.Label("The Game", "80px", "Consolas", "#000000", 320, 180, true);
             // buttons
                      
-            this.DisplayStats();
-            
-            this.spinButton = new objects.Button('./Assets/images/spinbutton.png', 100, 300, true);   
-            this.bet10Button = new objects.Button('./Assets/images/bet10.png', 100, 350, true);   
-            this.bet50Button = new objects.Button('./Assets/images/bet50.png', 200, 350, true);   
-            this.bet100Button = new objects.Button('./Assets/images/bet100.png', 300, 350, true);  
+            this.spinButton = new objects.Button('./Assets/images/spinButton.png', 180, 300, true);   
+            this.bet10Button = new objects.Button('./Assets/images/bet10.png', 180, 400, true);   
+            this.bet50Button = new objects.Button('./Assets/images/bet50.png', 300, 400, true);   
+            this.bet100Button = new objects.Button('./Assets/images/bet100.png', 420, 400, true); 
+            this.DisplayStats(); 
             this.Main();
         }        
         
@@ -275,17 +299,16 @@ module scenes
         
         public Main(): void 
         {                   
-            this.addChild(this.moneyLabel);
-            this.addChild(this.winNumberLabel);
-            this.addChild(this.lossNumberLabel);
-            this.addChild(this.betLabel);
-            this.addChild(this.turnLabel);
-            this.addChild(this.ratioLabel);
             
             this.addChild(this.spinButton);
             this.addChild(this.bet10Button);
             this.addChild(this.bet50Button);
             this.addChild(this.bet100Button);
+
+            this.spinButton.on("click", ()=>{this.spin()});
+            this.bet10Button.on("click", ()=>{this.betAmount(10)});
+            this.bet50Button.on("click", ()=>{this.betAmount(50)});
+            this.bet100Button.on("click", ()=>{this.betAmount(100)});
         }
 
         

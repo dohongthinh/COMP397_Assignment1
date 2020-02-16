@@ -9,8 +9,8 @@ module objects
         {
             super(imagePath, x, y, isCentered);
 
-            //this.on("mouseover", this.MouseOver);
-            //this.on("mouseout", this.MouseOut);
+            this.on("mouseover", this.MouseOver);
+            this.on("mouseout", this.MouseOut);
 
             this.Start();
         }

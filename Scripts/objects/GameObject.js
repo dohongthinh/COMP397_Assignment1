@@ -28,6 +28,7 @@ var objects;
             _this._height = 0;
             _this._halfWidth = 0;
             _this._halfHeight = 0;
+            _this._position = new objects.Vector2(0, 0, _this);
             _this._isColliding = false;
             _this._isCentered = false;
             _this.image.addEventListener("load", function () {
@@ -35,6 +36,7 @@ var objects;
                 _this.height = _this.getBounds().height;
                 _this.isCentered = centered;
             });
+            _this.position = new objects.Vector2(x, y, _this);
             return _this;
         }
         Object.defineProperty(GameObject.prototype, "width", {
@@ -70,6 +72,18 @@ var objects;
         Object.defineProperty(GameObject.prototype, "halfHeight", {
             get: function () {
                 return this._halfHeight;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(GameObject.prototype, "position", {
+            get: function () {
+                return this._position;
+            },
+            set: function (newPosition) {
+                this._position = newPosition;
+                this.x = newPosition.x;
+                this.y = newPosition.y;
             },
             enumerable: true,
             configurable: true

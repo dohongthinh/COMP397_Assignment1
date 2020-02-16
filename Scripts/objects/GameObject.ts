@@ -7,6 +7,7 @@ module objects
         private _height:number;
         private _halfWidth:number;
         private _halfHeight:number;
+        private _position:Vector2;
         private _isColliding:boolean;
         private _isCentered:boolean;
         
@@ -42,6 +43,19 @@ module objects
         {
             return this._halfHeight;
         }
+
+        get position():Vector2
+        {
+            return this._position;
+        }
+
+        set position(newPosition:Vector2)
+        {
+            this._position = newPosition;
+            this.x = newPosition.x;
+            this.y = newPosition.y;
+        }
+
         get isColliding():boolean
         {
             return this._isColliding;
@@ -78,6 +92,7 @@ module objects
             this._height = 0;
             this._halfWidth = 0;
             this._halfHeight = 0;
+            this._position = new Vector2(0, 0, this);
             this._isColliding = false;
             this._isCentered = false;
 
@@ -88,6 +103,8 @@ module objects
 
                 this.isCentered = centered;
             });
+
+            this.position = new Vector2(x, y, this);
 
         }
 
