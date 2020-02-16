@@ -4,7 +4,7 @@ module objects
     {
         
         // constructor
-        constructor(imagePath:string = './Assets/images/button.png'
+        constructor(imagePath:string = ''
             , x:number = 0, y:number= 0, isCentered:boolean = false)
         {
             super(imagePath, x, y, isCentered);

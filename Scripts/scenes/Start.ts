@@ -48,12 +48,17 @@ module scenes
         ratioLabel: objects.Label;
 
 
+        outCome=['','',''];
         //buttons  
         
         spinButton: objects.Button;
         bet100Button: objects.Button;
         bet50Button: objects.Button;
         bet10Button: objects.Button;
+        reel1: objects.Button;
+        reel2: objects.Button;
+        reel3: objects.Button;
+        
 
         _y_offset = 110;  
         _reel_start_y = 100;
@@ -71,6 +76,9 @@ module scenes
             this.bet100Button=new objects.Button();
             this.bet50Button=new objects.Button();
             this.bet10Button=new objects.Button();
+            this.reel1=new objects.Button();
+            this.reel2=new objects.Button();
+            this.reel3=new objects.Button();
 
             this.moneyLabel=new objects.Label();
             this.winNumberLabel=new objects.Label();
@@ -120,6 +128,7 @@ module scenes
             this.ww = 0;
             this.sk = 0;
             this.invoker = 0;
+            this.outCome=['','',''];
         }
 
         public resetAll():void
@@ -156,7 +165,6 @@ module scenes
                 this.ratio=this.wins/this.turn * 100;
                 var spins = [];
                 var result = [];
-
                 for(var i = 0; i < 3; i++)
                 {
                     //generate the random reel spin
@@ -167,34 +175,42 @@ module scenes
                     if(result[i] == "cm")
                     {
                         this.cm++;
+                        this.outCome[i]=this.cm_img;
                     }
                     else if(result [i] == "pugna")
                     {
                         this.pugna++;
+                        this.outCome[i]=this.pugna_img;
                     }
                     else if(result [i] == "np")
                     {
                         this.np++;
+                        this.outCome[i]=this.np_img;
                     }
                     else if(result [i] == "sb")
                     {
                         this.sb++;
+                        this.outCome[i]=this.sb_img;
                     }
                     else if(result[i] == "slark")
                     {
                         this.slark++; 
+                        this.outCome[i]=this.slark_img;
                     }
                     else if(result[i] == "sk")
                     {
                         this.sk++; 
+                        this.outCome[i]=this.sk_img;
                     }
                     else if(result[i] == "invoker")
                     {
-                        this.invoker++; 
+                        this.invoker++;
+                        this.outCome[i]=this.invoker_img; 
                     }
                     else
                     {
                         this.ww++;
+                        this.outCome[i]=this.ww_img;
                 }
             }
             console.log("cm"+this.cm);
@@ -204,9 +220,10 @@ module scenes
             console.log("slark"+this.slark);            
             console.log("ww"+this.ww);         
             console.log("sk"+this.sk);
-            console.log("invoker"+this.invoker);
+            console.log("invoker"+this.invoker);           
+            console.log(this.outCome[0] +"  "+this.outCome[1]+"  "+this.outCome[2]);
             this.determineWinning();        
-            //this.displayResult(spins);
+            this.displayResult(spins);
             this.DisplayStats();
             }
         }
@@ -270,22 +287,21 @@ module scenes
             }
         }
 
-        /*
+        
         public displayResult(spins:any):void
         {
-            let index = 0;
-            for(let i = 0; i < this.reels.length; i++) 
-            {                          
-                this._reel_images[index] = new createjs.Bitmap(this._queue.getResult(this.reels[i]));
-                this._reel_images[index].regX = this._reel_images[index].image.width / 2;
-                this._reel_images[index].regY = this._reel_images[index].image.height / 2;
-                this._reel_images[index].x = this._reel_start_x + (i * this._x_offset);
-                this._reel_images[index].y = this._reel_start_y + (this._y_offset);                
-                this.addChild(this._reel_images[index]);                          
-                index++;
-            }
+            this.removeChild(this.reel1);
+            this.removeChild(this.reel2);
+            this.removeChild(this.reel3);
+            this.reel1 = new objects.Button(this.outCome[0], 160, 200, true);   
+            this.reel2 = new objects.Button(this.outCome[1], 290, 200, true);   
+            this.reel3 = new objects.Button(this.outCome[2], 410, 200, true);               
+            this.addChild(this.reel1);
+            this.addChild(this.reel2);
+            this.addChild(this.reel3);
+            console.log("reels added");
         }   
-        */
+        
 
         public Start(): void 
         {
@@ -313,6 +329,9 @@ module scenes
             this.addChild(this.bet10Button);
             this.addChild(this.bet50Button);
             this.addChild(this.bet100Button);
+            this.addChild(this.reel1);
+            this.addChild(this.reel2);
+            this.addChild(this.reel3);
 
             this.spinButton.on("click", ()=>{this.spin()});
             this.bet10Button.on("click", ()=>{this.betAmount(10)});
