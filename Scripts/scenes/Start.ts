@@ -58,6 +58,8 @@ module scenes
         reel1: objects.Button;
         reel2: objects.Button;
         reel3: objects.Button;
+        resetButton: objects.Button;
+        quitButton: objects.Button;
         
 
         _y_offset = 110;  
@@ -79,6 +81,8 @@ module scenes
             this.reel1=new objects.Button();
             this.reel2=new objects.Button();
             this.reel3=new objects.Button();
+            this.resetButton=new objects.Button();
+            this.quitButton=new objects.Button();
 
             this.moneyLabel=new objects.Label();
             this.winNumberLabel=new objects.Label();
@@ -302,6 +306,12 @@ module scenes
             console.log("reels added");
         }   
         
+        public reset():void
+        {
+            this.resetAll();
+            this.resetReels();
+            this.DisplayStats();
+        }
 
         public Start(): void 
         {
@@ -312,7 +322,9 @@ module scenes
             this.spinButton = new objects.Button('./Assets/images/spinButton.png', 180, 300, true);   
             this.bet10Button = new objects.Button('./Assets/images/bet10.png', 180, 400, true);   
             this.bet50Button = new objects.Button('./Assets/images/bet50.png', 300, 400, true);   
-            this.bet100Button = new objects.Button('./Assets/images/bet100.png', 420, 400, true); 
+            this.bet100Button = new objects.Button('./Assets/images/bet100.png', 420, 400, true);   
+            this.resetButton = new objects.Button('./Assets/images/reset.png', 470, 60, true);    
+            this.quitButton = new objects.Button('./Assets/images/quit.png', 510, 60, true);  
             this.DisplayStats(); 
             this.Main();
         }        
@@ -332,13 +344,18 @@ module scenes
             this.addChild(this.reel1);
             this.addChild(this.reel2);
             this.addChild(this.reel3);
+            this.addChild(this.resetButton);
+            this.addChild(this.quitButton);
+
 
             this.spinButton.on("click", ()=>{this.spin()});
             this.bet10Button.on("click", ()=>{this.betAmount(10)});
             this.bet50Button.on("click", ()=>{this.betAmount(50)});
-            this.bet100Button.on("click", ()=>{this.betAmount(100)});
+            this.bet100Button.on("click", ()=>{this.betAmount(100)});   
+            this.resetButton.on("click", ()=>{this.reset()});
+            this.quitButton.on("click", ()=>{ window.location.assign("https://www.addictinggames.com/");});
         }
+    }
 
         
-    }
 }
