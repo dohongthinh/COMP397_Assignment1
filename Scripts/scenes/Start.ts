@@ -3,7 +3,15 @@ module scenes
     export class Start extends objects.Scene
     {
         // PRIVATE INSTANCE MEMBERS
-        _queue: any = new createjs.LoadQueue(true);
+        //images string
+        cm_img: string = './Assets/images/cm.png';
+        pugna_img: string = './Assets/images/pugna.png';
+        np_img: string = './Assets/images/np.png';
+        sb_img: string = './Assets/images/sb.png';
+        slark_img: string = './Assets/images/slark.png';
+        ww_img: string = './Assets/images/ww.png';
+        sk_img: string = './Assets/images/sk.png';
+        invoker_img: string = './Assets/images/invoker.png';
         
         // initial value
         jackpot:number = 5000;
@@ -152,7 +160,7 @@ module scenes
                 for(var i = 0; i < 3; i++)
                 {
                     //generate the random reel spin
-                    spins[i] = Math.floor((Math.random() * 6));                        
+                    spins[i] = Math.floor((Math.random() * 8));                        
                     result[i] = this.reels[i][spins[i]];   
             
                     //check to see what are the outcomes of the reel spins
@@ -225,21 +233,21 @@ module scenes
             //based on the rarity and the frequency of the symbols in the roll,
             //the player's winnings are increased
             if(this.slark == 2)
-                this.winnings += this.bet * 10;
+                this.winnings += this.bet * 1,2;
             else if(this.slark == 3)
-                this.winnings += this.bet * 15;
+                this.winnings += this.bet * 1,5;
             else if(this.pugna == 2 || this.ww == 2)
-                this.winnings += this.bet * 20;
+                this.winnings += this.bet * 2;
             else if(this.pugna == 3 || this.ww == 3)
-                this.winnings += this.bet * 30;      
+                this.winnings += this.bet * 2,5;      
             else if(this.np == 2)
-                this.winnings += this.bet * 40;
+                this.winnings += this.bet * 3;
             else if(this.np == 3)
-                this.winnings += this.bet * 60;                      
+                this.winnings += this.bet * 5;                      
             else if(this.cm == 2)
-                this.winnings += this.bet * 80;
+                this.winnings += this.bet * 7.5;
             else if(this.cm == 3)
-                this.winnings += this.bet * 100;
+                this.winnings += this.bet * 10;
 
                 this.player_money += this.winnings;
                 this.checkJackpot();
@@ -262,6 +270,7 @@ module scenes
             }
         }
 
+        /*
         public displayResult(spins:any):void
         {
             let index = 0;
@@ -276,7 +285,7 @@ module scenes
                 index++;
             }
         }   
-        
+        */
 
         public Start(): void 
         {

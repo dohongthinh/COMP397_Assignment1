@@ -21,7 +21,15 @@ var scenes;
         function Start() {
             var _this = _super.call(this) || this;
             // PRIVATE INSTANCE MEMBERS
-            _this._queue = new createjs.LoadQueue(true);
+            //images string
+            _this.cm_img = './Assets/images/cm.png';
+            _this.pugna_img = './Assets/images/pugna.png';
+            _this.np_img = './Assets/images/np.png';
+            _this.sb_img = './Assets/images/sb.png';
+            _this.slark_img = './Assets/images/slark.png';
+            _this.ww_img = './Assets/images/ww.png';
+            _this.sk_img = './Assets/images/sk.png';
+            _this.invoker_img = './Assets/images/invoker.png';
             // initial value
             _this.jackpot = 5000;
             _this.player_money = 1000;
@@ -124,7 +132,7 @@ var scenes;
                 var result = [];
                 for (var i = 0; i < 3; i++) {
                     //generate the random reel spin
-                    spins[i] = Math.floor((Math.random() * 6));
+                    spins[i] = Math.floor((Math.random() * 8));
                     result[i] = this.reels[i][spins[i]];
                     //check to see what are the outcomes of the reel spins
                     if (result[i] == "cm") {
@@ -180,21 +188,21 @@ var scenes;
                 //based on the rarity and the frequency of the symbols in the roll,
                 //the player's winnings are increased
                 if (this.slark == 2)
-                    this.winnings += this.bet * 10;
+                    this.winnings += this.bet * 1, 2;
                 else if (this.slark == 3)
-                    this.winnings += this.bet * 15;
+                    this.winnings += this.bet * 1, 5;
                 else if (this.pugna == 2 || this.ww == 2)
-                    this.winnings += this.bet * 20;
+                    this.winnings += this.bet * 2;
                 else if (this.pugna == 3 || this.ww == 3)
-                    this.winnings += this.bet * 30;
+                    this.winnings += this.bet * 2, 5;
                 else if (this.np == 2)
-                    this.winnings += this.bet * 40;
+                    this.winnings += this.bet * 3;
                 else if (this.np == 3)
-                    this.winnings += this.bet * 60;
+                    this.winnings += this.bet * 5;
                 else if (this.cm == 2)
-                    this.winnings += this.bet * 80;
+                    this.winnings += this.bet * 7.5;
                 else if (this.cm == 3)
-                    this.winnings += this.bet * 100;
+                    this.winnings += this.bet * 10;
                 this.player_money += this.winnings;
                 this.checkJackpot();
             }
@@ -212,9 +220,12 @@ var scenes;
                 this.DisplayStats();
             }
         };
-        Start.prototype.displayResult = function (spins) {
-            var index = 0;
-            for (var i = 0; i < this.reels.length; i++) {
+        /*
+        public displayResult(spins:any):void
+        {
+            let index = 0;
+            for(let i = 0; i < this.reels.length; i++)
+            {
                 this._reel_images[index] = new createjs.Bitmap(this._queue.getResult(this.reels[i]));
                 this._reel_images[index].regX = this._reel_images[index].image.width / 2;
                 this._reel_images[index].regY = this._reel_images[index].image.height / 2;
@@ -223,7 +234,8 @@ var scenes;
                 this.addChild(this._reel_images[index]);
                 index++;
             }
-        };
+        }
+        */
         Start.prototype.Start = function () {
             //instantiate a new Text object
             //this.welcomeLabel = new objects.Label("The Game", "80px", "Consolas", "#000000", 320, 180, true);
