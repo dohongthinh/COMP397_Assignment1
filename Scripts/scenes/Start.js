@@ -257,7 +257,7 @@ var scenes;
             //instantiate a new Text object
             //this.welcomeLabel = new objects.Label("The Game", "80px", "Consolas", "#000000", 320, 180, true);
             // buttons
-            this.spinButton = new objects.Button('./Assets/images/spinButton.png', 180, 300, true);
+            this.spinButton = new objects.Button('./Assets/images/spinbutton.png', 180, 300, true);
             this.bet10Button = new objects.Button('./Assets/images/bet10.png', 180, 400, true);
             this.bet50Button = new objects.Button('./Assets/images/bet50.png', 300, 400, true);
             this.bet100Button = new objects.Button('./Assets/images/bet100.png', 420, 400, true);
